@@ -9,16 +9,16 @@ CREATE YOUR OWN BRANCH (DO THIS IF THIS IS YOUR FIRST TIME EDITING A CODE):
 Workflow when you want to edit your code:
 DO this inside your command prompt. 
 Change directory to the project folder
-1. git pull origin main
-2. git checkout yourname-feature
-3. Edit stuffs you want, once you're done do the steps below:
-4. git add fileNamehere
-5. git commit -m "comment  here"
-6. git push origin yourname-feature
-7. git checkout main
-8. git pull origin main
-9. git merge yourname-feature
-10. git push origin main
+1. git checkout main
+2. git pull origin main
+3. git checkout yourname-feature
+4. Edit stuffs you want, once you're done do the steps below:
+5. git add fileNamehere
+6. git commit -m "comment  here"
+7. git push origin yourname-feature
+8. Go to the GitHub repo
+9. Click Pull Request
+10. Merge pull request
 
 CREATE YOUR OWN .ENV FILE:
 If you want to run the codes that are related to the AI calls, you need an API key. 
