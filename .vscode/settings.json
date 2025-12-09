@@ -1,8 +1,18 @@
 {
+    "java.vmargs": [
+        "--module-path",
+        "\"${auto:maven.classpath}\"",
+        "--add-modules",
+        "javafx.controls,javafx.fxml,javafx.graphics"
+    ],
+    
+    "java.mainClass": "logic.LeeyaWelcomePage",
+
     "java.project.sourcePaths": ["src"],
     "java.project.outputPath": "bin",
     "java.project.referencedLibraries": [
         "lib/**/*.jar"
     ],
-    "java.configuration.updateBuildConfiguration": "interactive"
+    "java.configuration.updateBuildConfiguration": "interactive",
+    "java.compile.nullAnalysis.mode": "automatic"
 }
