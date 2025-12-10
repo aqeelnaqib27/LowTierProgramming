@@ -2,7 +2,7 @@ package welcomelogic;
 
 import java.util.Scanner;
 
-public class WelcomeLogic {
+public class WelcomeLogicMain {
     public static void main(String[] args) {
 
         Scanner input = new Scanner(System.in);
