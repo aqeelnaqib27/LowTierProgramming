@@ -10,7 +10,6 @@ public class SummaryPage {
         List<String> lastSevenEntries = readLastSevenEntries("data/journal.txt");
         if (lastSevenEntries.isEmpty()) {
             System.out.println("No journal entries found.");
-            return;
         }
 
         StringBuilder combinedEntries = new StringBuilder();
