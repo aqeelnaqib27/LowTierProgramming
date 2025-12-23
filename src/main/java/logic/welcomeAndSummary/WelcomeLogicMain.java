@@ -10,12 +10,6 @@ import API.WeatherAPI;
 import logic.loginDatabase.*;
 
 public class WelcomeLogicMain {
-    private String username;
-
-    public WelcomeLogicMain(String username) {
-        this.username = username;
-    }
-    // --- Greeting Logic ---
 
     public void run(UserSession session, Scanner sc) {
 
@@ -49,12 +43,12 @@ public class WelcomeLogicMain {
             switch (option) {
                 case 1: {
                     running = false;
-                    journalPage.run(session, username, sc);
+                    journalPage.run(session, sc);
                     break;
                 }
                 case 2: {
                     running = false;
-                    summaryPage.run(session, username, sc);
+                    summaryPage.run(session, sc);
                     break;
                     
                 }

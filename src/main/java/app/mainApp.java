@@ -12,7 +12,7 @@ public class mainApp {
 
         if (session.username == null) return;
 
-        WelcomeLogicMain welcomeLogic = new WelcomeLogicMain(session.username);
+        WelcomeLogicMain welcomeLogic = new WelcomeLogicMain();
         welcomeLogic.run(session, sc);
 
         sc.close();

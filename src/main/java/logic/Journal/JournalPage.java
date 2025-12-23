@@ -12,9 +12,9 @@ public class JournalPage {
     private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd");
     private static Map<LocalDate, String> journals = new TreeMap<>();
 
-    public void run(UserSession session, String username, Scanner scanner) {
+    public void run(UserSession session, Scanner scanner) {
         loadJournals(scanner);
-        showJournalsPage(session, username, scanner);
+        showJournalsPage(session, scanner);
     }
 
     private static void loadJournals(Scanner scanner) {
@@ -74,7 +74,7 @@ public class JournalPage {
         }
     }
 
-    private static void showJournalsPage(UserSession session, String username, Scanner scanner) {
+    private static void showJournalsPage(UserSession session, Scanner scanner) {
         while (true) {
             System.out.println("\nJournals Page");
             System.out.println("===");
@@ -117,7 +117,7 @@ public class JournalPage {
                 int choice = Integer.parseInt(input);
 
                 if (choice == -1){
-                    WelcomeLogicMain welcomePage = new WelcomeLogicMain(username);
+                    WelcomeLogicMain welcomePage = new WelcomeLogicMain();
                     welcomePage.run(session, scanner);
                 }
 

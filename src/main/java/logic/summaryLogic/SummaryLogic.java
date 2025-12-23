@@ -8,7 +8,7 @@ import logic.loginDatabase.UserSession;
 
 public class SummaryLogic {
 
-    public void run(UserSession session, String username, Scanner sc) {
+    public void run(UserSession session, Scanner sc) {
         List<String> lastSevenEntries = readLastSevenEntries("data"+File.separator+"journals.txt");
         if (lastSevenEntries.isEmpty()) {
             System.out.println("No journal entries found.");
@@ -29,7 +29,7 @@ public class SummaryLogic {
         System.out.print("Type -1 to return to Main Page: ");
         int ret = Integer.parseInt(sc.nextLine());
         if (ret == -1) {
-            WelcomeLogicMain welcomePage = new WelcomeLogicMain(username);
+            WelcomeLogicMain welcomePage = new WelcomeLogicMain();
             welcomePage.run(session, sc);
         }
         else throw new RuntimeException("Invalid input!!!");

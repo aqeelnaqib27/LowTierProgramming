@@ -99,7 +99,7 @@ public class WeatherAPI {
         try {
             String encodedLocation = URLEncoder.encode(userLocation, StandardCharsets.UTF_8);
 
-            String url = "https://api.openweathermap.org/geo/1.0/direct?q="+encodedLocation+"&limit=5&appid="+API_KEY;
+            String url = "https://api.openweathermap.org/geo/1.0/direct?q="+encodedLocation+"&limit=10&appid="+API_KEY;
             String json = get(url);
 
             GeoLocation[] results = GSON.fromJson(json, GeoLocation[].class);
