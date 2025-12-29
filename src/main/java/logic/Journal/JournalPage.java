@@ -6,11 +6,23 @@ import java.util.*;
 import java.io.*;
 import logic.welcomeAndSummary.*;
 import logic.loginDatabase.*;
+import API.geminiAPI;
 
 public class JournalPage {
     private static final String JOURNAL_FILE = "data" + File.separator + "journals.txt";
     private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-    private static Map<LocalDate, String> journals = new TreeMap<>();
+    private static Map<LocalDate, JournalEntry> journals = new TreeMap<>();
+
+    // Inner class to store both journal content and AI summary
+    private static class JournalEntry {
+        String content;
+        String aiSummary;
+
+        JournalEntry(String content, String aiSummary) {
+            this.content = content;
+            this.aiSummary = aiSummary;
+        }
+    }
 
     public void run(UserSession session, Scanner scanner) {
         loadJournals(scanner);
@@ -27,30 +39,56 @@ public class JournalPage {
             String line;
             LocalDate currentDate = null;
             StringBuilder content = new StringBuilder();
+            StringBuilder aiSummary = new StringBuilder();
+            boolean readingAISummary = false;
 
             while ((line = reader.readLine()) != null) {
                 if (line.startsWith("DATE:")) {
+                    // Save previous entry if exists
                     if (currentDate != null) {
-                        journals.put(currentDate, content.toString().trim());
+                        journals.put(currentDate, new JournalEntry(
+                            content.toString().trim(), 
+                            aiSummary.toString().trim()
+                        ));
                         content = new StringBuilder();
+                        aiSummary = new StringBuilder();
                     }
                     currentDate = LocalDate.parse(line.substring(5).trim(), DATE_FORMATTER);
+                    readingAISummary = false;
+                } else if (line.startsWith("AI_SUMMARY:")) {
+                    readingAISummary = true;
                 } else if (line.equals("---")) {
                     if (currentDate != null) {
-                        journals.put(currentDate, content.toString().trim());
+                        journals.put(currentDate, new JournalEntry(
+                            content.toString().trim(), 
+                            aiSummary.toString().trim()
+                        ));
                         content = new StringBuilder();
+                        aiSummary = new StringBuilder();
                         currentDate = null;
+                        readingAISummary = false;
                     }
                 } else {
-                    if (content.length() > 0) {
-                        content.append("\n");
+                    if (readingAISummary) {
+                        if (aiSummary.length() > 0) {
+                            aiSummary.append("\n");
+                        }
+                        aiSummary.append(line);
+                    } else {
+                        if (content.length() > 0) {
+                            content.append("\n");
+                        }
+                        content.append(line);
                     }
-                    content.append(line);
                 }
             }
 
+            // Save last entry if exists
             if (currentDate != null) {
-                journals.put(currentDate, content.toString().trim());
+                journals.put(currentDate, new JournalEntry(
+                    content.toString().trim(), 
+                    aiSummary.toString().trim()
+                ));
             }
         } catch (IOException e) {
             System.out.println("Error loading journals: " + e.getMessage());
@@ -61,11 +99,20 @@ public class JournalPage {
         File file = new File(JOURNAL_FILE);
         file.getParentFile().mkdirs();
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(JOURNAL_FILE))) {
-            for (Map.Entry<LocalDate, String> entry : journals.entrySet()) {
+            for (Map.Entry<LocalDate, JournalEntry> entry : journals.entrySet()) {
                 writer.write("DATE:" + entry.getKey().format(DATE_FORMATTER));
                 writer.newLine();
-                writer.write(entry.getValue());
+                writer.write(entry.getValue().content);
                 writer.newLine();
+                
+                // Write AI summary if it exists
+                if (entry.getValue().aiSummary != null && !entry.getValue().aiSummary.isEmpty()) {
+                    writer.write("AI_SUMMARY:");
+                    writer.newLine();
+                    writer.write(entry.getValue().aiSummary);
+                    writer.newLine();
+                }
+                
                 writer.write("---");
                 writer.newLine();
             }
@@ -102,9 +149,9 @@ public class JournalPage {
 
             boolean todayHasJournal = journals.containsKey(today);
             if (todayHasJournal) {
-                System.out.print("\nSelect a date to view journal, edit the journal for today, or enter \'-1\' to exit the program :\n> ");
+                System.out.print("\nSelect a date to view journal, edit the journal for today, or enter '-1' to exit the program :\n> ");
             } else {
-                System.out.print("\nSelect a date to view journal, create a new journal for today, or enter \'-1\' to exit the program :\n> ");
+                System.out.print("\nSelect a date to view journal, create a new journal for today, or enter '-1' to exit the program :\n> ");
             }
 
             String input = scanner.nextLine().trim();
@@ -152,7 +199,19 @@ public class JournalPage {
         System.out.print("> ");
         String entry = scanner.nextLine();
         
-        journals.put(date, entry);
+        // Ask if user wants AI summary
+        System.out.print("\nDo you want an AI summary of your current Entry? (yes/no): ");
+        String wantSummary = scanner.nextLine().trim().toLowerCase();
+        
+        String aiSummary = "";
+        if (wantSummary.equals("yes") || wantSummary.equals("y")) {
+            aiSummary = generateAISummary(entry);
+            if (aiSummary != null && !aiSummary.isEmpty()) {
+                System.out.println("\n" + aiSummary);
+            }
+        }
+        
+        journals.put(date, new JournalEntry(entry, aiSummary));
         saveJournals();
         
         System.out.println("\nJournal saved successfully!");
@@ -182,7 +241,25 @@ public class JournalPage {
         System.out.print("> ");
         String entry = scanner.nextLine();
         
-        journals.put(date, entry);
+        // Ask if user wants AI summary
+        System.out.print("\nDo you want an AI summary of your updated Entry? (yes/no): ");
+        String wantSummary = scanner.nextLine().trim().toLowerCase();
+        
+        String aiSummary = "";
+        if (wantSummary.equals("yes") || wantSummary.equals("y")) {
+            aiSummary = generateAISummary(entry);
+            if (aiSummary != null && !aiSummary.isEmpty()) {
+                System.out.println("\n" + aiSummary);
+            }
+        } else {
+            // Keep existing AI summary if user doesn't want a new one
+            JournalEntry existingEntry = journals.get(date);
+            if (existingEntry != null) {
+                aiSummary = existingEntry.aiSummary;
+            }
+        }
+        
+        journals.put(date, new JournalEntry(entry, aiSummary));
         saveJournals();
         
         System.out.println("\nJournal updated successfully!");
@@ -213,9 +290,15 @@ public class JournalPage {
     private static void viewJournal(LocalDate date, Scanner scanner) {
         System.out.println("\n=== Journal Entry for " + date.format(DATE_FORMATTER) + " ===");
         
-        String entry = journals.get(date);
-        if (entry != null && !entry.isEmpty()) {
-            System.out.println(entry);
+        JournalEntry entry = journals.get(date);
+        if (entry != null && entry.content != null && !entry.content.isEmpty()) {
+            System.out.println(entry.content);
+            
+            // Display AI summary if it exists
+            if (entry.aiSummary != null && !entry.aiSummary.isEmpty()) {
+                System.out.println("\n--- AI Summary ---");
+                System.out.println(entry.aiSummary);
+            }
         } else {
             System.out.println("No journal entry for this date.");
         }
@@ -223,5 +306,25 @@ public class JournalPage {
         System.out.println("\nPress Enter to go back.");
         System.out.print("> ");
         scanner.nextLine();
+    }
+
+    private static String generateAISummary(String journalContent) {
+        System.out.println("\nGenerating AI summary...");
+        
+        try {
+            geminiAPI api = new geminiAPI();
+            String prompt = "Please provide a brief summary of the following journal entry in 2-3 sentences:\n\n" + journalContent;
+            String response = api.geminiResponse(prompt, journalContent);
+            
+            if (response != null && !response.isEmpty()) {
+                return response;
+            } else {
+                System.out.println("Failed to generate AI summary.");
+                return "";
+            }
+        } catch (Exception e) {
+            System.out.println("Error generating AI summary: " + e.getMessage());
+            return "";
+        }
     }
 }
