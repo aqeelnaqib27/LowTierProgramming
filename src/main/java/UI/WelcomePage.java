@@ -13,14 +13,16 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
+import logic.loginDatabase.UserSession;
 
 import java.time.LocalTime;
 
 public class WelcomePage {
 
     private Scene scene;
+    private UserSession session;
 
-    public WelcomePage(Stage stage) {
+    public WelcomePage(Stage stage, UserSession session) {
 
         /* ================= ROOT ================= */
         BorderPane root = new BorderPane();
@@ -33,7 +35,7 @@ public class WelcomePage {
         sidebar.setStyle("-fx-background-color: #FAF7FF;");
 
         ImageView logoIcon = new ImageView(
-            new Image(getClass().getResourceAsStream("/UI/assets/icons/logo-daily.png"))
+            new Image(getClass().getResourceAsStream("/images/logo-daily.png"))
         );
         logoIcon.setFitWidth(32);
         logoIcon.setFitHeight(32);
@@ -109,7 +111,7 @@ public class WelcomePage {
         VBox greetBox = new VBox(6);
 
         Label greet = new Label(
-            getGreeting() + ", " + UserSession.getUsername() + "!"
+            getGreeting() + ", " + session.username + "!"
         );
         greet.setFont(Font.font("Segoe UI", 28));
         greet.setStyle("-fx-font-weight: bold;");
@@ -205,7 +207,7 @@ public class WelcomePage {
     /* ================= HELPERS ================= */
     private Button navButton(String text, String icon, boolean active) {
         ImageView iconView = new ImageView(
-            new Image(getClass().getResourceAsStream("/UI/assets/icons/" + icon))
+            new Image(getClass().getResourceAsStream("/images/" + icon))
         );
         iconView.setFitWidth(16);
         iconView.setFitHeight(16);

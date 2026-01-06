@@ -63,7 +63,7 @@ public class RegisterPage {
 
         /* ===== ICON WITH BACKGROUND ===== */
         Image profileImg = new Image(
-            getClass().getResourceAsStream("/UI/assets/icons/profile-icon.png")
+            getClass().getResourceAsStream("/images/profile-icon.png")
         );
         ImageView profileIcon = new ImageView(profileImg);
         profileIcon.setFitWidth(48);

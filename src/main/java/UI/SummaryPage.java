@@ -37,7 +37,7 @@ public class SummaryPage {
         headerTitle.setTextFill(Color.WHITE);
 
         ImageView headerStar = new ImageView(
-            new Image(getClass().getResourceAsStream("assets/icons/star.png"))
+            new Image(getClass().getResourceAsStream("/images/star.png"))
         );
         headerStar.setFitWidth(14);
         headerStar.setFitHeight(14);
@@ -95,7 +95,7 @@ public class SummaryPage {
         moodChart.getData().add(series);
 
         ImageView summaryIcon = new ImageView(
-            new Image(getClass().getResourceAsStream("assets/icons/summary.png"))
+            new Image(getClass().getResourceAsStream("/images/summary.png"))
         );
         summaryIcon.setFitWidth(18);
         summaryIcon.setFitHeight(18);
@@ -117,7 +117,7 @@ public class SummaryPage {
 
         /* ================= INSIGHT ================= */
         ImageView insightStar = new ImageView(
-            new Image(getClass().getResourceAsStream("assets/icons/star.png"))
+            new Image(getClass().getResourceAsStream("/images/star.png"))
         );
         insightStar.setFitWidth(16);
         insightStar.setFitHeight(16);

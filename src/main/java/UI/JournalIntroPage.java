@@ -29,7 +29,7 @@ public class JournalIntroPage {
 
         // === ICON ===
         ImageView icon = new ImageView(
-            new Image(getClass().getResourceAsStream("assets/icons/book-open.png"))
+            new Image(getClass().getResourceAsStream("/images/book-open.png"))
         );
         icon.setFitWidth(64);
         icon.setFitHeight(64);
@@ -42,7 +42,7 @@ public class JournalIntroPage {
         title.setTextFill(Color.web("#7C3AED"));
 
         ImageView starIcon = new ImageView(
-            new Image(getClass().getResourceAsStream("assets/icons/star.png"))
+            new Image(getClass().getResourceAsStream("/images/star.png"))
         );
         starIcon.setFitWidth(14);
         starIcon.setFitHeight(14);
@@ -70,15 +70,15 @@ public class JournalIntroPage {
         infoCard.setEffect(new DropShadow(8, Color.rgb(0,0,0,0.15)));
 
         infoCard.getChildren().addAll(
-            createInfoRow("assets/icons/love.png", "Express your thoughts freely"),
-            createInfoRow("assets/icons/star.png", "Track your beautiful journey"),
-            createInfoRow("assets/icons/moon.png", "Cherish your memories")
+            createInfoRow("/images/love.png", "Express your thoughts freely"),
+            createInfoRow("/images/star.png", "Track your beautiful journey"),
+            createInfoRow("/images/moon.png", "Cherish your memories")
         );
 
 
         // === BUTTON ===
         ImageView heartIcon = new ImageView(
-            new Image(getClass().getResourceAsStream("assets/icons/hearts.png"))
+            new Image(getClass().getResourceAsStream("/images/hearts.png"))
         );
         heartIcon.setFitWidth(16);
         heartIcon.setFitHeight(16);

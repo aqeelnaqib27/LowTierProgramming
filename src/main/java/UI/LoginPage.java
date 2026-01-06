@@ -9,6 +9,8 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
+import logic.loginDatabase.UserAuthenticator;
+import logic.loginDatabase.UserSession;
 
 public class LoginPage {
 
@@ -55,7 +57,7 @@ public class LoginPage {
 
         // ===== PROFILE ICON (IMAGE) =====
         Image profileImg = new Image(
-            getClass().getResourceAsStream("/UI/assets/icons/profile-icon.png")
+            getClass().getResourceAsStream("/images/profile-icon.png")
         );
 
         ImageView profileIcon = new ImageView(profileImg);
@@ -167,10 +169,10 @@ public class LoginPage {
 
         // === ICON DARI CANVA (40x40 → DISCALE) ===
         Image eyeOpenImg = new Image(
-            getClass().getResourceAsStream("/UI/assets/icons/eye-open.png")
+            getClass().getResourceAsStream("/images/eye-open.png")
         );
         Image eyeClosedImg = new Image(
-            getClass().getResourceAsStream("/UI/assets/icons/eye-closed.png")
+            getClass().getResourceAsStream("/images/eye-closed.png")
         );
 
         ImageView eyeIcon = new ImageView(eyeOpenImg);
@@ -209,6 +211,7 @@ public class LoginPage {
         passwordBox.getChildren().addAll(passwordLabel, passwordContainer);
 
         /* ================= SUBMIT ================= */
+        UserAuthenticator auth = new UserAuthenticator();
         Button submitBtn = new Button("Sign In");
         submitBtn.setPrefWidth(Double.MAX_VALUE);
         submitBtn.setStyle(
@@ -227,8 +230,13 @@ public class LoginPage {
                 return;
             }
 
-            UserSession.login(emailOrUsername);
-            SceneNavigator.goToWelcome();
+            if(auth.authenticate(emailOrUsername, password)) {
+                UserSession session = auth.getUserData(emailOrUsername);
+                if (session == null) {
+                    new Alert(Alert.AlertType.ERROR,"User not found").show();   
+                }
+                SceneNavigator.goToWelcome(session);
+            }
         });
 
         form.getChildren().addAll(emailBox, passwordBox, submitBtn);

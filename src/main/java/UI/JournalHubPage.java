@@ -12,10 +12,12 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
+import logic.loginDatabase.UserSession;
 
 public class JournalHubPage {
 
     private Scene scene;
+    private UserSession session;
 
     public JournalHubPage(Stage stage) {
 
@@ -28,7 +30,7 @@ public class JournalHubPage {
 
         /* ================= HEADER ================= */
         Label greeting = new Label(
-            "Good Afternoon, " + UserSession.getUsername() + " ✨"
+            "Good Afternoon, " + session.username + " ✨"
         );
         greeting.setFont(Font.font("Segoe UI", 22));
         greeting.setTextFill(Color.web("#7C3AED"));
@@ -45,7 +47,7 @@ public class JournalHubPage {
         /* ================= CARDS ================= */
 
         VBox journalCard = createCard(
-            "assets/icons/daily-journal.png",
+            "/images/daily-journal.png",
             "My Journals",
             "Create, edit, and view your journal entries.\nExpress your thoughts and feelings freely.",
             "Open Journals →"
@@ -55,7 +57,7 @@ public class JournalHubPage {
         );
 
         VBox summaryCard = createCard(
-            "assets/icons/summary.png",
+            "/images/summary.png",
             "Weekly Mood Summary",
             "Track your emotional journey and see how your mood changes throughout the week.",
             "View Summary →"
@@ -89,7 +91,7 @@ public class JournalHubPage {
             "-fx-padding: 8 22;"
         );
         backBtn.setEffect(new DropShadow(6, Color.rgb(0,0,0,0.2)));
-        backBtn.setOnAction(e -> SceneNavigator.goToWelcome());
+        //backBtn.setOnAction(e -> SceneNavigator.goToWelcome());
 
         root.getChildren().addAll(header, cardRow, quote, backBtn);
 

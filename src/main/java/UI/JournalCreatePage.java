@@ -14,11 +14,14 @@ import javafx.scene.Cursor;
 import javafx.stage.Stage;
 
 import logic.Journal.JournalManager;
+import logic.loginDatabase.UserSession;
+
 import java.time.LocalDate;
 
 public class JournalCreatePage {
 
     private Scene scene;
+    private UserSession session;
 
     public JournalCreatePage(Stage stage) {
 
@@ -59,7 +62,7 @@ public class JournalCreatePage {
         titleRow.setAlignment(Pos.CENTER_LEFT);
 
         ImageView bookIcon = new ImageView(
-            new Image(getClass().getResourceAsStream("assets/icons/daily-book.png"))
+            new Image(getClass().getResourceAsStream("/images/daily-book.png"))
         );
         bookIcon.setFitWidth(26);
         bookIcon.setFitHeight(26);
@@ -112,7 +115,7 @@ public class JournalCreatePage {
         titleRowForm.setAlignment(Pos.CENTER_LEFT);
 
         ImageView pencilIcon = new ImageView(
-            new Image(getClass().getResourceAsStream("assets/icons/pencil.png"))
+            new Image(getClass().getResourceAsStream("/images/pencil.png"))
         );
         pencilIcon.setFitWidth(20);
         pencilIcon.setFitHeight(20);
@@ -166,7 +169,7 @@ public class JournalCreatePage {
             }
 
             JournalManager.saveJournal(
-                UserSession.getUsername(),
+                session.username,
                 titleField.getText(),
                 journalArea.getText()
             );

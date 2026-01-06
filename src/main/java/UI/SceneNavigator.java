@@ -2,6 +2,8 @@ package UI;
 
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import logic.loginDatabase.UserAuthenticator;
+import logic.loginDatabase.UserSession;
 
 public class SceneNavigator {
 
@@ -40,8 +42,8 @@ public class SceneNavigator {
         switchScene(new RegisterPage(stage).getScene());
     }
 
-    public static void goToWelcome() {
-        switchScene(new WelcomePage(stage).getScene());
+    public static void goToWelcome(UserSession session) {
+        switchScene(new WelcomePage(stage, session).getScene());
     }
 
     public static void goToJournalIntro() {

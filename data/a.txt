@@ -37,3 +37,21 @@ Gemini Response: **Sentiment:** Overwhelmingly negative, characterized by intens
 
 **Short Insight:** The writer is deeply overwhelmed and on the brink of burnout, with current project pressures completely eclipsing their underlying passion and pushing them towards thoughts of quitting.
 ---------------------
+TITLE: Painful day
+DATE: 2026-01-06
+Journal:
+I accidentally deleted a lot of my work, so now i have to start over.
+Sentiment:
+Gemini Response: This journal entry expresses a **mixed sentiment**, characterized by an initial surge of positive accomplishment and satisfaction quickly overshadowed by a significant downturn into **demotivation, hurt, and emotional exhaustion** due to external criticism.
+
+**Short Insight:** The writer experienced a stark contrast between genuine morning productivity and the complete emotional depletion brought on by an unexpected negative interaction, highlighting how external criticism can swiftly overshadow internal achievements.
+---------------------
+TITLE: Test?
+DATE: 2026-01-06
+Journal:
+idk test
+Sentiment:
+Gemini Response: The sentiment is **mixed but ultimately resilient.** While it expresses feelings of dread, grind, and an afternoon slump, it's balanced by actions of pushing through, achieving small wins, and looking forward to an easier tomorrow.
+
+**Short Insight:** The entry reflects a day of quiet perseverance against the daily grind, finding strength in small accomplishments and hopeful anticipation.
+---------------------

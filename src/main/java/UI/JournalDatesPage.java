@@ -54,7 +54,7 @@ public class JournalDatesPage {
         titleRow.setAlignment(Pos.CENTER_LEFT);
 
         ImageView bookIcon = new ImageView(
-            new Image(getClass().getResourceAsStream("assets/icons/daily-book.png"))
+            new Image(getClass().getResourceAsStream("/images/daily-book.png"))
         );
         bookIcon.setFitWidth(26);
         bookIcon.setFitHeight(26);
@@ -101,7 +101,7 @@ public class JournalDatesPage {
         journalHeader.setAlignment(Pos.CENTER_LEFT);
 
         ImageView summaryIcon = new ImageView(
-            new Image(getClass().getResourceAsStream("assets/icons/summary.png"))
+            new Image(getClass().getResourceAsStream("/images/summary.png"))
         );
         summaryIcon.setFitWidth(24);
         summaryIcon.setFitHeight(24);
@@ -138,7 +138,7 @@ public class JournalDatesPage {
         addBtn.setOnAction(e -> SceneNavigator.goToJournalCreate());
 
         ImageView ribbonIcon = new ImageView(
-            new Image(getClass().getResourceAsStream("assets/icons/pita.png"))
+            new Image(getClass().getResourceAsStream("/images/pita.png"))
         );
         ribbonIcon.setFitWidth(22);
         ribbonIcon.setFitHeight(22);
@@ -158,7 +158,7 @@ public class JournalDatesPage {
         );
 
         ImageView rainbowIcon = new ImageView(
-            new Image(getClass().getResourceAsStream("assets/icons/rainbow.png"))
+            new Image(getClass().getResourceAsStream("/images/rainbow.png"))
         );
         rainbowIcon.setFitWidth(22);
         rainbowIcon.setFitHeight(22);
@@ -190,7 +190,7 @@ public class JournalDatesPage {
         footer.setAlignment(Pos.CENTER);
 
         ImageView sakuraIcon = new ImageView(
-            new Image(getClass().getResourceAsStream("assets/icons/sakura.png"))
+            new Image(getClass().getResourceAsStream("/images/sakura.png"))
         );
         sakuraIcon.setFitWidth(20);
         sakuraIcon.setFitHeight(20);
@@ -227,7 +227,7 @@ public class JournalDatesPage {
         );
 
         ImageView bookIcon = new ImageView(
-            new Image(getClass().getResourceAsStream("assets/icons/book.png"))
+            new Image(getClass().getResourceAsStream("/images/book.png"))
         );
         bookIcon.setFitWidth(26);
         bookIcon.setFitHeight(26);
@@ -254,13 +254,13 @@ public class JournalDatesPage {
 
         /* ===== ACTION ICONS (PNG) ===== */
         ImageView editIcon = new ImageView(
-            new Image(getClass().getResourceAsStream("assets/icons/edit.png"))
+            new Image(getClass().getResourceAsStream("/images/edit.png"))
         );
         editIcon.setFitWidth(18);
         editIcon.setFitHeight(18);
 
         ImageView deleteIcon = new ImageView(
-            new Image(getClass().getResourceAsStream("assets/icons/delete.png"))
+            new Image(getClass().getResourceAsStream("/images/delete.png"))
         );
         deleteIcon.setFitWidth(18);
         deleteIcon.setFitHeight(18);
