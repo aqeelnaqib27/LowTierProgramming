@@ -8,11 +8,10 @@ public class mainApp extends Application {
 
     @Override
     public void start(Stage stage) {
-        SceneNavigator.setStage(stage);
-
+        SceneNavigator navigator = new SceneNavigator(stage);
         stage.setTitle("Mindful Journal");
 
-        SceneNavigator.goToLogin();
+        navigator.goToLogin();
 
         stage.show();
     }

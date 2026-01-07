@@ -125,7 +125,8 @@ public class WeatherAPI {
         }
     }
 
-    public GeoLocation userLocationRegistration(Scanner sc) {
+    public GeoLocation userLocationRegistration() {
+        Scanner sc = new Scanner(System.in);
         if (userLocation.isEmpty()) {
             System.out.println("Where do you live? Enter a location:");
             userLocation = sc.nextLine();

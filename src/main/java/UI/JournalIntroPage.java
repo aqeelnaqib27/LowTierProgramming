@@ -17,8 +17,12 @@ import javafx.scene.image.ImageView;
 public class JournalIntroPage {
 
     private Scene scene;
+    private final Stage stage;
+    private final SceneNavigator navigator;
 
-    public JournalIntroPage(Stage stage) {
+    public JournalIntroPage(Stage stage, SceneNavigator navigator) {
+        this.stage = stage;
+        this.navigator = navigator;
 
         VBox root = new VBox(25);
         root.setAlignment(Pos.CENTER);
@@ -100,7 +104,7 @@ public class JournalIntroPage {
         );
 
         startBtn.setOnAction(e ->
-            SceneNavigator.goToJournalHub()
+            navigator.goToJournalHub()
         );
 
         Label footer = new Label(

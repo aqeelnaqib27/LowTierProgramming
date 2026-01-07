@@ -21,9 +21,12 @@ import java.time.LocalDate;
 public class JournalCreatePage {
 
     private Scene scene;
-    private UserSession session;
+    private final Stage stage;
+    private final SceneNavigator navigator;
 
-    public JournalCreatePage(Stage stage) {
+    public JournalCreatePage(Stage stage, SceneNavigator navigator) {
+        this.stage = stage;
+        this.navigator = navigator;
 
         /* ================= ROOT ================= */
         VBox root = new VBox(30);
@@ -88,7 +91,7 @@ public class JournalCreatePage {
             "-fx-background-radius: 16;" +
             "-fx-padding: 8 20;"
         );
-        backBtn.setOnAction(e -> SceneNavigator.goToJournalDates());
+        backBtn.setOnAction(e -> navigator.goToJournalDates());
 
         StackPane.setAlignment(backBtn, Pos.TOP_RIGHT);
         StackPane.setMargin(backBtn, new Insets(20));
@@ -169,7 +172,7 @@ public class JournalCreatePage {
             }
 
             JournalManager.saveJournal(
-                session.username,
+                navigator.getSession().username,
                 titleField.getText(),
                 journalArea.getText()
             );
@@ -178,7 +181,7 @@ public class JournalCreatePage {
                 "Journal saved successfully.\nSentiment analyzed by Gemini ✨"
             ).show();
 
-            SceneNavigator.goToJournalDates();
+            navigator.goToJournalDates();
         });
 
         saveBtn.disableProperty().bind(

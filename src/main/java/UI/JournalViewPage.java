@@ -16,8 +16,12 @@ import java.time.LocalDate;
 public class JournalViewPage {
 
     private Scene scene;
+    private final Stage stage;
+    private final SceneNavigator navigator;
 
-    public JournalViewPage(Stage stage) {
+    public JournalViewPage(Stage stage, SceneNavigator navigator) {
+        this.stage = stage;
+        this.navigator = navigator;
 
         // === ROOT ===
         VBox root = new VBox(25);
@@ -52,7 +56,7 @@ public class JournalViewPage {
             "-fx-text-fill: #8B72FF;" +
             "-fx-font-size: 13;"
         );
-        backBtnTop.setOnAction(e -> SceneNavigator.goToJournalDates());
+        backBtnTop.setOnAction(e -> navigator.goToJournalDates());
 
         // === CONTENT CARD ===
         VBox card = new VBox(15);
@@ -90,7 +94,7 @@ public class JournalViewPage {
             "-fx-background-radius: 20;" +
             "-fx-padding: 8 20;"
         );
-        editBtn.setOnAction(e -> SceneNavigator.goToJournalCreate());
+        editBtn.setOnAction(e -> navigator.goToJournalCreate());
 
         Button backBtn = new Button("⬅️ Back to Dates");
         backBtn.setStyle(
@@ -98,7 +102,7 @@ public class JournalViewPage {
             "-fx-text-fill: #8B72FF;" +
             "-fx-padding: 8 20;"
         );
-        backBtn.setOnAction(e -> SceneNavigator.goToJournalDates());
+        backBtn.setOnAction(e -> navigator.goToJournalDates());
 
         // === CURSOR ===
         editBtn.setCursor(Cursor.HAND);

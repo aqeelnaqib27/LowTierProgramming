@@ -17,9 +17,12 @@ import logic.loginDatabase.UserSession;
 public class JournalHubPage {
 
     private Scene scene;
-    private UserSession session;
+    private final Stage stage;
+    private final SceneNavigator navigator;
 
-    public JournalHubPage(Stage stage) {
+    public JournalHubPage(Stage stage, SceneNavigator navigator) {
+        this.stage = stage;
+        this.navigator = navigator;
 
         VBox root = new VBox(30);
         root.setAlignment(Pos.TOP_CENTER);
@@ -30,7 +33,7 @@ public class JournalHubPage {
 
         /* ================= HEADER ================= */
         Label greeting = new Label(
-            "Good Afternoon, " + session.username + " ✨"
+            "Good Afternoon, " + navigator.getSession().username + " ✨"
         );
         greeting.setFont(Font.font("Segoe UI", 22));
         greeting.setTextFill(Color.web("#7C3AED"));
@@ -53,7 +56,7 @@ public class JournalHubPage {
             "Open Journals →"
         );
         journalCard.setOnMouseClicked(e ->
-            SceneNavigator.goToJournalDates()
+            navigator.goToJournalDates()
         );
 
         VBox summaryCard = createCard(
@@ -63,7 +66,7 @@ public class JournalHubPage {
             "View Summary →"
         );
         summaryCard.setOnMouseClicked(e ->
-            SceneNavigator.goToSummary()
+            navigator.goToSummary()
         );
 
         HBox cardRow = new HBox(30, journalCard, summaryCard);
@@ -91,7 +94,7 @@ public class JournalHubPage {
             "-fx-padding: 8 22;"
         );
         backBtn.setEffect(new DropShadow(6, Color.rgb(0,0,0,0.2)));
-        //backBtn.setOnAction(e -> SceneNavigator.goToWelcome());
+        backBtn.setOnAction(e -> navigator.goToWelcome());
 
         root.getChildren().addAll(header, cardRow, quote, backBtn);
 

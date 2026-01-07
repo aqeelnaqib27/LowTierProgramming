@@ -15,9 +15,13 @@ import logic.loginDatabase.UserSession;
 public class LoginPage {
 
     private Scene scene;
+    private final Stage stage;
+    private final SceneNavigator navigator;
     private String activeTab = "login";
 
-    public LoginPage(Stage stage) {
+    public LoginPage(Stage stage, SceneNavigator navigator) {
+        this.stage = stage;
+        this.navigator = navigator;
 
         // ===== ROOT BACKGROUND =====
         StackPane root = new StackPane();
@@ -123,7 +127,7 @@ public class LoginPage {
         });
 
         registerBtn.setOnAction(e -> {
-            SceneNavigator.goToRegister();
+            navigator.goToRegister();
         });
 
         tabs.getChildren().addAll(loginBtn, registerBtn);
@@ -235,7 +239,8 @@ public class LoginPage {
                 if (session == null) {
                     new Alert(Alert.AlertType.ERROR,"User not found").show();   
                 }
-                SceneNavigator.goToWelcome(session);
+                navigator.setSession(emailOrUsername);
+                navigator.goToWelcome();
             }
         });
 

@@ -69,7 +69,7 @@ public class LoginPage {
                     
                     // Additional user details
                     API.WeatherAPI api = new WeatherAPI();
-                    GeoLocation loc = api.userLocationRegistration(sc);
+                    GeoLocation loc = api.userLocationRegistration();
 
                     double latitude = loc.lat;
                     double longitude = loc.lon;

@@ -20,8 +20,12 @@ import logic.summaryLogic.SummaryLogic;;
 public class SummaryPage {
 
     private Scene scene;
+    private final Stage stage;
+    private final SceneNavigator navigator;
 
-    public SummaryPage(Stage stage) {
+    public SummaryPage(Stage stage, SceneNavigator navigator) {
+        this.stage = stage;
+        this.navigator = navigator;
 
         /* ================= ROOT ================= */
         VBox root = new VBox(30);
@@ -59,7 +63,7 @@ public class SummaryPage {
             "-fx-background-radius: 18;" +
             "-fx-padding: 8 20;"
         );
-        backBtn.setOnAction(e -> SceneNavigator.goToJournalHub());
+        backBtn.setOnAction(e -> navigator.goToJournalHub());
 
         Region spacer = new Region();
         HBox.setHgrow(spacer, Priority.ALWAYS);

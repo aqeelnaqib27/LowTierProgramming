@@ -18,8 +18,12 @@ import javafx.stage.Stage;
 public class JournalDatesPage {
 
     private Scene scene;
+    private final Stage stage;
+    private final SceneNavigator navigator;
 
-    public JournalDatesPage(Stage stage) {
+    public JournalDatesPage(Stage stage, SceneNavigator navigator) {
+        this.stage = stage;
+        this.navigator = navigator;
 
         /* ================= ROOT ================= */
         VBox root = new VBox(30);
@@ -79,7 +83,7 @@ public class JournalDatesPage {
             "-fx-text-fill: white; -fx-background-radius: 16;" +
             "-fx-padding: 8 20;"
         );
-        backBtn.setOnAction(e -> SceneNavigator.goToJournalHub());
+        backBtn.setOnAction(e -> navigator.goToJournalHub());
 
         StackPane.setAlignment(backBtn, Pos.TOP_RIGHT);
         StackPane.setMargin(backBtn, new Insets(20));
@@ -135,7 +139,7 @@ public class JournalDatesPage {
             "-fx-background-radius: 18;" +
             "-fx-padding: 6 16;"
         );
-        addBtn.setOnAction(e -> SceneNavigator.goToJournalCreate());
+        addBtn.setOnAction(e -> navigator.goToJournalCreate());
 
         ImageView ribbonIcon = new ImageView(
             new Image(getClass().getResourceAsStream("/images/pita.png"))
@@ -274,7 +278,7 @@ public class JournalDatesPage {
         editBtn.setStyle("-fx-background-color: transparent;");
         deleteBtn.setStyle("-fx-background-color: transparent;");
 
-        editBtn.setOnAction(e -> SceneNavigator.goToJournalCreate());
+        editBtn.setOnAction(e -> navigator.goToJournalCreate());
 
         deleteBtn.setOnAction(e -> {
             dateCard.setVisible(false);

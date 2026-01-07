@@ -20,9 +20,12 @@ import java.time.LocalTime;
 public class WelcomePage {
 
     private Scene scene;
-    private UserSession session;
+    private final Stage stage;
+    private final SceneNavigator navigator;
 
-    public WelcomePage(Stage stage, UserSession session) {
+    public WelcomePage(Stage stage, SceneNavigator navigator) {
+        this.stage = stage;
+        this.navigator = navigator;
 
         /* ================= ROOT ================= */
         BorderPane root = new BorderPane();
@@ -52,8 +55,8 @@ public class WelcomePage {
         Button newEntryBtn = navButton("New Entry", "pencil.png", false);
         Button journalBtn = navButton("My Journal", "book-open.png", false);
 
-        newEntryBtn.setOnAction(e -> SceneNavigator.goToJournalCreate());
-        journalBtn.setOnAction(e -> SceneNavigator.goToJournalIntro());
+        newEntryBtn.setOnAction(e -> navigator.goToJournalCreate());
+        journalBtn.setOnAction(e -> navigator.goToJournalIntro());
 
         Region spacer = new Region();
         VBox.setVgrow(spacer, Priority.ALWAYS);
@@ -111,7 +114,7 @@ public class WelcomePage {
         VBox greetBox = new VBox(6);
 
         Label greet = new Label(
-            getGreeting() + ", " + session.username + "!"
+            getGreeting() + ", " + navigator.getSession().username + "!"
         );
         greet.setFont(Font.font("Segoe UI", 28));
         greet.setStyle("-fx-font-weight: bold;");
@@ -129,7 +132,7 @@ public class WelcomePage {
             "-fx-background-radius: 24;" +
             "-fx-padding: 12 28;"
         );
-        writeBtn.setOnAction(e -> SceneNavigator.goToJournalCreate());
+        writeBtn.setOnAction(e -> navigator.goToJournalCreate());
 
         Region headerSpacer = new Region();
         HBox.setHgrow(headerSpacer, Priority.ALWAYS);
@@ -194,7 +197,6 @@ public class WelcomePage {
         recentCard.getChildren().addAll(recentTitle, recentSub);
 
         mainRow.getChildren().addAll(weeklyCard, recentCard);
-
         content.getChildren().addAll(headerCard, mainRow);
         main.getChildren().add(content);
 

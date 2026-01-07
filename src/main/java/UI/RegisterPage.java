@@ -1,5 +1,7 @@
 package UI;
 
+import API.WeatherAPI;
+import API.WeatherAPI.GeoLocation;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -10,10 +12,13 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+import logic.loginDatabase.UserAuthenticator;
 
 public class RegisterPage {
 
     private Scene scene;
+    private final Stage stage;
+    private final SceneNavigator navigator;
     private String activeTab = "register";
 
     // fields
@@ -22,8 +27,13 @@ public class RegisterPage {
     private PasswordField passwordField;
     private PasswordField confirmPasswordField;
     private TextField locationField;
+    private ComboBox<String> genderBox;
+    private DatePicker dobPicker;
 
-    public RegisterPage(Stage stage) {
+
+    public RegisterPage(Stage stage, SceneNavigator navigator) {
+        this.stage = stage;
+        this.navigator = navigator;
 
         /* ================= ROOT ================= */
         StackPane root = new StackPane();
@@ -122,7 +132,7 @@ public class RegisterPage {
         registerBtn.setStyle(activeStyle);
         loginBtn.setStyle(inactiveStyle);
 
-        loginBtn.setOnAction(e -> SceneNavigator.goToLogin());
+        loginBtn.setOnAction(e -> navigator.goToLogin());
 
         tabs.getChildren().addAll(loginBtn, registerBtn);
         return tabs;
@@ -135,6 +145,26 @@ public class RegisterPage {
 
         emailField = createInput("Email Address", "Email");
         usernameField = createInput("Display Name", "Username");
+        /* ===== GENDER ===== */
+        genderBox = new ComboBox<>();
+        genderBox.getItems().addAll("Male", "Female");
+        genderBox.setPromptText("Gender");
+        genderBox.setPrefWidth(Double.MAX_VALUE);
+        genderBox.setStyle(
+            "-fx-background-color: #F9FAFB;" +
+            "-fx-background-radius: 12;" +
+            "-fx-padding: 12;"
+        );
+
+        /* ===== DATE OF BIRTH ===== */
+        dobPicker = new DatePicker();
+        dobPicker.setPromptText("YYYY / MM / DD");
+        dobPicker.setPrefWidth(Double.MAX_VALUE);
+        dobPicker.setStyle(
+            "-fx-background-color: #F9FAFB;" +
+            "-fx-background-radius: 12;" +
+            "-fx-padding: 12;"
+        );
         passwordField = createPassword("Password");
         confirmPasswordField = createPassword("Confirm Password");
         locationField = createInput("Where do you live?", "e.g. Kuala Lumpur");
@@ -155,11 +185,13 @@ public class RegisterPage {
             "-fx-background-color: transparent;" +
             "-fx-text-fill: #9333EA;"
         );
-        backBtn.setOnAction(e -> SceneNavigator.goToLogin());
+        backBtn.setOnAction(e -> navigator.goToLogin());
 
         form.getChildren().addAll(
             emailField,
             usernameField,
+            genderBox,
+            dobPicker,
             passwordField,
             confirmPasswordField,
             locationField,
@@ -207,9 +239,14 @@ public class RegisterPage {
     /* ================= LOGIC ================= */
 
     private void handleRegister() {
+        UserAuthenticator auth = new UserAuthenticator();
+        WeatherAPI api = new WeatherAPI();
+
         if (
             emailField.getText().isEmpty() ||
             usernameField.getText().isEmpty() ||
+            genderBox.getValue() == null ||
+            dobPicker.getValue() == null ||
             passwordField.getText().isEmpty()
         ) {
             new Alert(Alert.AlertType.WARNING, "Please fill all required fields").show();
@@ -221,12 +258,25 @@ public class RegisterPage {
             return;
         }
 
+        // Location search service
+        GeoLocation loc = api.userLocationRegistration();
+        double lat = loc.lat;
+        double lon = loc.lon;
+
+        String username = usernameField.getText();
+        String email = emailField.getText();
+        String password = passwordField.getText();
+        String gender = genderBox.getValue();
+        String dob = dobPicker.getValue().toString();
+
+        auth.registerUser(username, email, password, gender, dob, lat, lon);
+
         new Alert(
             Alert.AlertType.INFORMATION,
             "Account created successfully!\nPlease login."
         ).show();
 
-        SceneNavigator.goToLogin();
+        navigator.goToLogin();
     }
 
     /* ================= BACKGROUND BLUR ================= */
