@@ -69,10 +69,7 @@ public class LoginPage {
                     
                     // Additional user details
                     API.WeatherAPI api = new WeatherAPI();
-                    GeoLocation loc = api.userLocationRegistration();
 
-                    double latitude = loc.lat;
-                    double longitude = loc.lon;
 
                     
                     System.out.print("Enter gender (Male/Female): ");
@@ -83,7 +80,6 @@ public class LoginPage {
                 
                     
                     // Call the updated registerUser method with all details
-                    auth.registerUser(username, email, password, gender, dateOfBirth, latitude, longitude);
                     break;
                     
                 case 3: // Exit

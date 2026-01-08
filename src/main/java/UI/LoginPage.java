@@ -228,17 +228,14 @@ public class LoginPage {
             String password = passwordField.isVisible()
                 ? passwordField.getText()
                 : passwordText.getText();
-
+            System.out.println("Get user and pass successful");
             if (emailOrUsername.isEmpty() || password.isEmpty()) {
                 new Alert(Alert.AlertType.WARNING, "Please fill all fields").show();
                 return;
             }
 
             if(auth.authenticate(emailOrUsername, password)) {
-                UserSession session = auth.getUserData(emailOrUsername);
-                if (session == null) {
-                    new Alert(Alert.AlertType.ERROR,"User not found").show();   
-                }
+                System.out.println("Login successful");
                 navigator.setSession(emailOrUsername);
                 navigator.goToWelcome();
             }

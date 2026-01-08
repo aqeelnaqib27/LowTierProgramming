@@ -1,6 +1,9 @@
 package UI;
 
+import API.WeatherAPI;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.stage.Stage;
 import logic.loginDatabase.UserAuthenticator;
 import logic.loginDatabase.UserSession;
@@ -14,6 +17,13 @@ public class SceneNavigator {
     public void setSession(String emailOrUsername) {
         UserAuthenticator auth = new UserAuthenticator();
         this.session = auth.getUserData(emailOrUsername);
+        if (session == null) {
+            new Alert(Alert.AlertType.WARNING, "User not found").show();
+        }
+        System.out.println("getUserData completed");
+        WeatherAPI api = new WeatherAPI();
+        api.getWeather(session.lat, session.lon);
+        System.out.println("Get curr weather completed");
     }
     public UserSession getSession() {
         return session;
@@ -48,6 +58,7 @@ public class SceneNavigator {
     }
 
     public void goToWelcome() {
+        System.out.println("trying to go to welcome page");
         switchScene(new WelcomePage(stage, this).getScene());
     }
 

@@ -83,6 +83,7 @@ public class WeatherAPI {
         public static class Weather {
             public String main;
             public String description;
+            public String icon;
         }
 
         public static class Sys {
@@ -125,7 +126,7 @@ public class WeatherAPI {
         }
     }
 
-    public GeoLocation userLocationRegistration() {
+    public GeoLocation userLocationRegistration(GeoLocation location) {
         Scanner sc = new Scanner(System.in);
         if (userLocation.isEmpty()) {
             System.out.println("Where do you live? Enter a location:");

@@ -16,6 +16,11 @@ import javafx.stage.Stage;
 import logic.loginDatabase.UserSession;
 
 import java.time.LocalTime;
+import java.util.Locale;
+
+import API.WeatherAPI;
+import API.WeatherAPI.GeoLocation;
+import API.WeatherAPI.WeatherResponse;
 
 public class WelcomePage {
 
@@ -139,7 +144,7 @@ public class WelcomePage {
 
         headerCard.getChildren().addAll(greetBox, headerSpacer, writeBtn);
 
-        /* ===== WEEKLY + RECENT ===== */
+        /* ===== WEEKLY + WEATHER ===== */
         HBox mainRow = new HBox(30);
         mainRow.setAlignment(Pos.CENTER);
 
@@ -176,27 +181,77 @@ public class WelcomePage {
 
         weeklyCard.getChildren().addAll(weeklyTitle, weeklySub, chart);
 
-        /* ===== RECENT CARD ===== */
-        VBox recentCard = new VBox(15);
-        recentCard.setPadding(new Insets(30));
-        recentCard.setPrefWidth(370);
-        recentCard.setStyle(
+        /* ===== WEATHER CARD ===== */
+        WeatherAPI api = new WeatherAPI();
+        WeatherResponse weatherData = api.getWeatherCached(navigator.getSession().lat, navigator.getSession().lon);
+
+        VBox weatherCard = new VBox(18);
+        weatherCard.setPadding(new Insets(30));
+        weatherCard.setPrefWidth(370);
+        weatherCard.setAlignment(Pos.TOP_LEFT);
+        weatherCard.setStyle(
             "-fx-background-color: white;" +
             "-fx-background-radius: 28;"
         );
-        recentCard.setEffect(new DropShadow(12, Color.rgb(0,0,0,0.12)));
+        weatherCard.setEffect(new DropShadow(12, Color.rgb(0, 0, 0, 0.12)));
 
-        Label recentTitle = new Label("Recent Entries");
-        recentTitle.setFont(Font.font("Segoe UI", 20));
-        recentTitle.setStyle("-fx-font-weight: bold;");
-        recentTitle.setTextFill(Color.web("#5B21B6"));
+        Label weatherTitle = new Label("Today's Weather");
+        weatherTitle.setFont(Font.font("Segoe UI", 20));
+        weatherTitle.setStyle("-fx-font-weight: bold;");
+        weatherTitle.setTextFill(Color.web("#5B21B6"));
 
-        Label recentSub = new Label("Your latest thoughts");
-        recentSub.setTextFill(Color.web("#7C3AED"));
+        // quick func to convert country ISO code to actual name
+        Locale locale = new Locale("", weatherData.sys.country);
+        String countryName = locale.getDisplayCountry();
 
-        recentCard.getChildren().addAll(recentTitle, recentSub);
+        Label locationLabel = new Label(weatherData.name + ", " + countryName);
+        locationLabel.setFont(Font.font("Segoe UI", 18));
+        locationLabel.setTextFill(Color.web("#7C3AED"));
 
-        mainRow.getChildren().addAll(weeklyCard, recentCard);
+        HBox tempRow = new HBox(10);
+        tempRow.setAlignment(Pos.CENTER);
+
+        ImageView weatherIcon = new ImageView(
+            new Image("https://openweathermap.org/img/wn/" + weatherData.weather[0].icon + "@2x.png", true)
+        );
+        weatherIcon.setFitWidth(80);
+        weatherIcon.setFitHeight(80);
+
+        Label tempLabel = new Label(Double.toString(weatherData.main.temp) + "°C");
+        tempLabel.setFont(Font.font("Segoe UI", 38));
+        tempLabel.setStyle("-fx-font-weight: bold;");
+        tempLabel.setTextFill(Color.web("#7C3AED"));
+
+        tempRow.getChildren().addAll(weatherIcon, tempLabel);
+
+        /* --- Condition --- */
+        Label conditionLabel = new Label(toSentenceCase(weatherData.weather[0].description));
+        conditionLabel.setFont(Font.font("Segoe UI", 16 ));
+        conditionLabel.setTextFill(Color.web("#7C3AED"));
+
+        /* --- Extra Info --- */
+        Label feelsLikeLabel = new Label("Feels like " + Double.toString(weatherData.main.feels_like) + "°C");
+        feelsLikeLabel.setFont(Font.font("Segoe UI", 15));
+        feelsLikeLabel.setTextFill(Color.web("#7C3AED"));
+
+        Label humidityLabel = new Label("Humidity: " + Double.toString(weatherData.main.humidity) + "%");
+        humidityLabel.setFont(Font.font("Segoe UI", 15));
+        humidityLabel.setTextFill(Color.web("#7C3AED"));
+
+        StackPane centeredCondition = new StackPane(conditionLabel);
+        StackPane centeredFeelsLike = new StackPane(feelsLikeLabel);
+        StackPane centeredHumidity = new StackPane(humidityLabel);
+
+        weatherCard.getChildren().addAll(
+            weatherTitle,
+            locationLabel,
+            tempRow,
+            centeredCondition,
+            centeredFeelsLike,
+            centeredHumidity
+        );
+
+        mainRow.getChildren().addAll(weeklyCard, weatherCard);
         content.getChildren().addAll(headerCard, mainRow);
         main.getChildren().add(content);
 
@@ -240,6 +295,11 @@ public class WelcomePage {
         if (hour < 12) return "Good Morning";
         if (hour < 18) return "Good Afternoon";
         return "Good Evening";
+    }
+
+    private static String toSentenceCase(String text) {
+        if (text == null || text.isEmpty()) return text;
+        return text.substring(0, 1).toUpperCase() + text.substring(1);
     }
 
     public Scene getScene() {
